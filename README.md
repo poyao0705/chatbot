@@ -19,11 +19,14 @@ fastify generate backend --lang=ts
 
 
 ## LLM Service
-0. Response types
+I am planning to build a Open WebUI-style chatbot that supports multiple LLM providers. Users can BYOK (bring your own key) to use their own LLM provider.
+
+### 0. Response types
 There are two types of responses from the LLM service: 
   - `text`: the LLM service returns a plain text response.
   - `stream`: the LLM service returns a stream of text responses.
-1. Contract
+
+### 1. Contract
 Before building the LLM service, we need to define the contract of the LLM provider and the input/output format of the LLM service, so we can allow user to select multiple providers, without knowing the detail implementation.
   - Request format: `prompt`, `model`
   - Response format: 
@@ -32,3 +35,19 @@ Before building the LLM service, we need to define the contract of the LLM provi
     - LLMUsage
     - FinishReason
   - LLMProvider: an interface that defines the contract of the LLM provider, including listing available models and generating text (both sync and async).
+
+### 2. Provider interface:
+  - `listModels`: lists the available models for the provider.
+  - `generateText`: generates text synchronously.
+  - `streamText`: generates text asynchronously, returning a stream of events.
+
+### 3. OpenAI provider
+We start with OpenAI provider as the default provider.
+  - Class `OpenAIProvider` implements `LLMProvider`.
+  - If api key is not provided, throws an error.
+  - Implements with OpenAI SDK.
+  - Default model is `gpt-5.4`.
+  - `generateText` returns a promise type `Promise<string | null>`.
+  - `streamText` returns a stream of `TextDelta` events. Implemented with async generator.
+
+### 4.
