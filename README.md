@@ -63,3 +63,8 @@ We want the LLM service to be a plugin, so we can do dependency injection. Examp
 - fetchModelList(): returns a list of available models for the provider.
 - generateText(): generates text synchronously.
 - streamText(): generates text asynchronously, returning a stream of events.
+
+### 6. Route
+Expose the chat route that accepts a `modelId` and `message` in the request body, based on different request, send back stream or plain text response.
+- `chat/stream`: accepts a `modelId` and `message` in the request body, and returns a stream of `TextDelta` events.
+- `chat/`: accepts a `modelId` and `message` in the request body, and returns a plain text response.
