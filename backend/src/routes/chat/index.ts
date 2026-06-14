@@ -14,15 +14,20 @@ const chat: FastifyPluginAsync = async (fastify): Promise<void> => {
       throw fastify.httpErrors.internalServerError("OPENAI_API_KEY is not set");
     }
 
-    return fastify.llmService
-      .create({
-        providerId: "openai", // TODO: fix the value for now
-        apiKey,
-      })
-      .streamText({
-        modelId: requestBody.modelId,
-        prompt: requestBody.message,
-      });
+    return (
+      fastify.llmService
+        // .create()
+        .streamText(
+          {
+            providerId: "openai", // TODO: fix the value for now
+            apiKey,
+          },
+          {
+            modelId: requestBody.modelId,
+            prompt: requestBody.message,
+          },
+        )
+    );
   };
 
   fastify.post<{ Body: ChatRequestBody }>("/", async function (request, reply) {
@@ -33,14 +38,17 @@ const chat: FastifyPluginAsync = async (fastify): Promise<void> => {
     }
 
     const result = await fastify.llmService
-      .create({
-        providerId: "openai", // TODO: fix the value for now
-        apiKey,
-      })
-      .generateText({
-        modelId: request.body.modelId,
-        prompt: request.body.message,
-      });
+      // .create()
+      .generateText(
+        {
+          providerId: "openai", // TODO: fix the value for now
+          apiKey,
+        },
+        {
+          modelId: request.body.modelId,
+          prompt: request.body.message,
+        },
+      );
 
     return {
       result,
