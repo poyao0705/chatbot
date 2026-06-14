@@ -50,4 +50,8 @@ We start with OpenAI provider as the default provider.
   - `generateText` returns a promise type `Promise<string | null>`.
   - `streamText` returns a stream of `TextDelta` events. Implemented with async generator.
 
-### 4.
+### 4. Provider Factory
+Before we use the LLM directly, it is important to think of the future implementation. We are allowing users to select multiple providers. Therefore, factory pattern is used to allow future extensions on different providers, such as Anthropic, Google, etc.
+
+- A TypeScript object that maps `ProviderId` to `LLMProviderFactory` function type.
+- This helps to decouple the provider selection logic from the LLM usage code. We can easily add new providers (anthropic, google) by registering them in the factory.
