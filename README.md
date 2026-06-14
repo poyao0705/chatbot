@@ -68,3 +68,4 @@ We want the LLM service to be a plugin, so we can do dependency injection. Examp
 Expose the chat route that accepts a `modelId` and `message` in the request body, based on different request, send back stream or plain text response.
 - `chat/stream`: accepts a `modelId` and `message` in the request body, and returns a stream of `TextDelta` events.
 - `chat/`: accepts a `modelId` and `message` in the request body, and returns a plain text response.
+- Added a sse helper function to send SSE events to the client.
