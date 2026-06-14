@@ -55,3 +55,11 @@ Before we use the LLM directly, it is important to think of the future implement
 
 - A TypeScript object that maps `ProviderId` to `LLMProviderFactory` function type.
 - This helps to decouple the provider selection logic from the LLM usage code. We can easily add new providers (anthropic, google) by registering them in the factory.
+- Cache the provider instance by `ProviderId` and `apiKey`, and set a TTL (time-to-live): 10 mins for the cache.
+
+### 5. LLM Plugin
+We want the LLM service to be a plugin, so we can do dependency injection. Example usage: `const llmProvider: LLMProvider = fastify.llmService.create({providerId: ..., apiKey: ...})`
+- create(): creates an LLMProvider instance based on the provided configuration.
+- fetchModelList(): returns a list of available models for the provider.
+- generateText(): generates text synchronously.
+- streamText(): generates text asynchronously, returning a stream of events.
