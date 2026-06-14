@@ -31,3 +31,4 @@ Before building the LLM service, we need to define the contract of the LLM provi
     - **Stream**: `text-delta`
     - LLMUsage
     - FinishReason
+  - LLMProvider: an interface that defines the contract of the LLM provider, including listing available models and generating text (both sync and async).
