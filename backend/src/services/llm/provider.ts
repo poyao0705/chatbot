@@ -20,10 +20,15 @@ export type LLMUsage = {
 
 export type LLMStreamEvent =
   | { type: "text-delta"; text: string }
-  | { type: "done"; finishReason?: string; usage?: LLMUsage; modelId?: string };
+  | {
+      type: "done";
+      finishReason?: string;
+      usage?: LLMUsage;
+      modelId?: string;
+    };
 
 export interface LLMProvider {
   generateText: (request: LLMTextRequest) => Promise<string | null>;
   fetchModelList: () => Promise<string[]>;
-  streamText: (request: LLMTextRequest) => Promise<AsyncIterable<string>>;
+  streamText: (request: LLMTextRequest) => AsyncIterable<LLMStreamEvent>;
 }
